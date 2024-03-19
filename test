@@ -1,0 +1,2636 @@
+import { profileEnd } from "console";
+import { Request, Response } from "express";
+import express from "express";
+import bodyParser from "body-parser";
+const app = express();
+const port = 3000;
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// =========================== [START] Campaign and datasource ======================
+
+const dataSource = [
+  {
+    datasourceID: 1,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR001",
+    dmsCode: "DMS0001",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 200,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 2,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR002",
+    dmsCode: "DMS0003",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 200,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 3,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR003",
+    dmsCode: "DMS0003",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 4,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR004",
+    dmsCode: "DMS0004",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 5,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR005",
+    dmsCode: "DMS0005",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 900,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 6,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR006",
+    dmsCode: "DMS0006",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 200,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 7,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR007",
+    dmsCode: "DMS0007",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 8,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR008",
+    dmsCode: "DMS0008",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 100,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 9,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR009",
+    dmsCode: "DMS0009",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 100,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 10,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR010",
+    dmsCode: "DMS0010",
+    code: "Shp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 100,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 11,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR011",
+    dmsCode: "DMS0011",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 1000,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 12,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR012",
+    dmsCode: "DMS0012",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 13,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR013",
+    dmsCode: "DMS0013",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 14,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR014",
+    dmsCode: "DMS0014",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 15,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR015",
+    dmsCode: "DMS0015",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 16,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR016",
+    dmsCode: "DMS0016",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 17,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR017",
+    dmsCode: "DMS0017",
+    code: "Shp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 18,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR018",
+    dmsCode: "DMS0018",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 19,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR019",
+    dmsCode: "DMS0019",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 600,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 20,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR020",
+    dmsCode: "DMS0020",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 700,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 21,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR021",
+    dmsCode: "DMS0021",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 22,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR022",
+    dmsCode: "DMS0022",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 23,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR023",
+    dmsCode: "DMS0023",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 24,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR024",
+    dmsCode: "DMS0024",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 25,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR025",
+    dmsCode: "DMS0025",
+    code: "Shp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 26,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR026",
+    dmsCode: "DMS0026",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 27,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR027",
+    dmsCode: "DMS0027",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 28,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR028",
+    dmsCode: "DMS0028",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 600,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 29,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR029",
+    dmsCode: "DMS0029",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 30,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR030",
+    dmsCode: "DMS0030",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 31,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR031",
+    dmsCode: "DMS0031",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 32,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR032",
+    dmsCode: "DMS0032",
+    code: "Shp04",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 2,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 100,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+
+  // After we change from combine Datasource with Retailer/BigRetailer Name to Code
+  // The test need to be duplicate cause code in Datasource only have one field
+  // Which reference to only Retailer or only Big Retailer
+  // [START] Duplicate Datasource of Retailer to Big Retailer
+  {
+    datasourceID: 33,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR001",
+    dmsCode: "DMS0001",
+    code: "BigShp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 200,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+
+  {
+    datasourceID: 34,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR003",
+    dmsCode: "DMS0003",
+    code: "BigShp01",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 35,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR004",
+    dmsCode: "DMS0004",
+    code: "BigShp02",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 36,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR006",
+    dmsCode: "DMS0006",
+    code: "BigShp03",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 200,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 37,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR007",
+    dmsCode: "DMS0007",
+    code: "BigShp03",
+    retailerName: "Shop1",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province A",
+    district: "District A",
+    segment: "High",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "BIG_RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 38,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR011",
+    dmsCode: "DMS0011",
+    code: "BigShp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 1000,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 39,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR014",
+    dmsCode: "DMS0014",
+    code: "BigShp02",
+    retailerName: "Shop2",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item D",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District C",
+    segment: "Medium",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 40,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR018",
+    dmsCode: "DMS0018",
+    code: "BigShp02",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 41,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR020",
+    dmsCode: "DMS0020",
+    code: "BigShp02",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 700,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 42,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR023",
+    dmsCode: "DMS0023",
+    code: "BigShp03",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 43,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR024",
+    dmsCode: "DMS0024",
+    code: "BigShp01",
+    retailerName: "Shop3",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 400,
+    unitOrder: "Ton",
+    zone: "Zone A",
+    province: "Province B",
+    district: "District B",
+    segment: "High",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 44,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR027",
+    dmsCode: "DMS0027",
+    code: "BigShp02",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 1,
+    productBrand: "SG",
+    productName: "Item B",
+    saleVolume: 300,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "Big Shop2",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 45,
+    sourceType: "DMS",
+    inputDate: "2023-01-01T00:00:00.000Z",
+    orderCode: "OR028",
+    dmsCode: "DMS0028",
+    code: "BigShp01",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 1,
+    productBrand: "SCG",
+    productName: "Item C",
+    saleVolume: 600,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "Big Shop1",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+  {
+    datasourceID: 46,
+    sourceType: "DMS",
+    inputDate: "2023-02-01T00:00:00.000Z",
+    orderCode: "OR031",
+    dmsCode: "DMS0031",
+    code: "BigShp03",
+    retailerName: "Shop4",
+    year: 2023,
+    month: 2,
+    productBrand: "SG",
+    productName: "Item A",
+    saleVolume: 500,
+    unitOrder: "Ton",
+    zone: "Zone B",
+    province: "Province C",
+    district: "District D",
+    segment: "Low",
+    retailerLevel1Name: "Big Shop3",
+    shopType: "RETAILER",
+    phoneNumber: "",
+    zaloID: "",
+    email: "",
+    dataSourceStatus: "",
+    adjustmentReason: "",
+    countryID: 1,
+  },
+];
+
+const campaign = [
+  {
+    campaignID: "VN-23Jan-001",
+    campaignDescription: "Campaign Normal",
+    campaignType: "NORMAL",
+    campaignGoal: "Test Normal",
+    campaignName: "Campaign 01",
+    campaignTargetType: "COUNTRY",
+    restrictionStartDate: "2023-01-01T00:00:00.000Z",
+    restrictionEndDate: "2023-12-31T07:00:00Z",
+    isSubRTLCal: 1,
+    countryID: 1,
+    campaignStatus: "DRAFT",
+    pointStatus: "WAITING_REVIEW",
+    urBoxStatus: "NO_DATA",
+  },
+  {
+    campaignID: "VN-23Jan-002",
+    campaignDescription: "Campaign Plus Bonus Point",
+    campaignType: "SPECIAL_PlusBonusPoint",
+    campaignGoal: "Test Plus Bonus Point",
+    campaignName: "Campaign 02",
+    campaignTargetType: "ZONE",
+    campaignShopType: "ALL",
+    restrictionStartDate: "2023-01-01T00:00:00.000Z",
+    restrictionEndDate: "2023-01-31T07:00:00Z",
+    isSubRTLCal: 1,
+    countryID: 1,
+    campaignStatus: "DRAFT",
+    pointStatus: "WAITING_REVIEW",
+    urBoxStatus: "NO_DATA",
+  },
+  {
+    campaignID: "VN-23Jan-003",
+    campaignDescription: "Campaign Step Level Targeting",
+    campaignType: "SPECIAL_StepLevelTargeting",
+    campaignGoal: "Test Step Level Targeting",
+    campaignName: "Campaign 03",
+    campaignTargetType: "PROVINCE",
+    campaignShopType: "BIG_RETAILER",
+    restrictionStartDate: "2023-01-01T00:00:00.000Z",
+    restrictionEndDate: "2023-01-31T07:00:00Z",
+    isSubRTLCal: 1,
+    countryID: 1,
+    campaignStatus: "DRAFT",
+    pointStatus: "WAITING_REVIEW",
+    urBoxStatus: "NO_DATA",
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    campaignDescription: "Campaign Achieved Targeting",
+    campaignType: "SPECIAL_AchievedTargeting",
+    campaignGoal: "Test Achieved Targeting",
+    campaignName: "Campaign 04",
+    campaignTargetType: "DISTRICT",
+    campaignShopType: "RETAILER",
+    restrictionStartDate: "2023-01-01T00:00:00.000Z",
+    restrictionEndDate: "2023-01-31T07:00:00Z",
+    isSubRTLCal: 1,
+    countryID: 1,
+    campaignStatus: "DRAFT",
+    pointStatus: "WAITING_REVIEW",
+    urBoxStatus: "NO_DATA",
+  },
+  {
+    campaignID: "VN-23Jan-005",
+    campaignDescription: "Campaign Monthly Each Target",
+    campaignType: "SPECIAL_MonthlyEachTargeting",
+    campaignGoal: "Test Monthly Each Target",
+    campaignName: "Campaign 05",
+    campaignTargetType: "RETAILER",
+    // campaignShopType: '',
+    restrictionStartDate: "2023-01-01T00:00:00.000Z",
+    restrictionEndDate: "2023-01-31T07:00:00Z",
+    isSubRTLCal: 0,
+    countryID: 1,
+    campaignStatus: "DRAFT",
+    pointStatus: "WAITING_REVIEW",
+    urBoxStatus: "NO_DATA",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    campaignDescription: "Campaign Monthly Acc Target",
+    campaignType: "SPECIAL_MonthlyAccTargeting",
+    campaignGoal: "Test Monthly Acc Target",
+    campaignName: "Campaign 06",
+    campaignTargetType: "RETAILER",
+    // campaignShopType: '',
+    restrictionStartDate: "2023-01-01T00:00:00.000Z",
+    restrictionEndDate: "2023-01-31T07:00:00Z",
+    isSubRTLCal: 0,
+    countryID: 1,
+    campaignStatus: "DRAFT",
+    pointStatus: "WAITING_REVIEW",
+    urBoxStatus: "NO_DATA",
+  },
+];
+
+const restrictionProduct = [
+  {
+    campaignID: "VN-23Jan-001",
+    productID: 1,
+  },
+  {
+    campaignID: "VN-23Jan-001",
+    productID: 2,
+  },
+  {
+    campaignID: "VN-23Jan-001",
+    productID: 3,
+  },
+  {
+    campaignID: "VN-23Jan-001",
+    productID: 4,
+  },
+];
+
+const rewardPoint = [
+  {
+    rewardPointID: 1,
+    campaignID: "VN-23Jan-001",
+    targetTypeID: 1,
+    pointReward: [
+      {
+        productID: 1,
+        levelList: [
+          {
+            level: "level 1",
+            point: 1,
+          },
+        ],
+      },
+      {
+        productID: 2,
+        levelList: [
+          {
+            level: "level 1",
+            point: 1,
+          },
+        ],
+      },
+      {
+        productID: 3,
+        levelList: [
+          {
+            level: "level 1",
+            point: 2,
+          },
+        ],
+      },
+      {
+        productID: 4,
+        levelList: [
+          {
+            level: "level 1",
+            point: 2,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 2,
+    campaignID: "VN-23Jan-002",
+    targetTypeID: 2,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "level 1",
+            point: 2,
+          },
+        ],
+      },
+      {
+        tagID: 5,
+        levelList: [
+          {
+            level: "level 1",
+            point: 3,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 3,
+    campaignID: "VN-23Jan-003",
+    targetTypeID: 1,
+    pointReward: [
+      {
+        tagID: 4,
+        levelList: [
+          {
+            level: "level 1",
+            target: 100,
+            point: 1,
+          },
+          {
+            level: "level 2",
+            target: 200,
+            point: 2,
+          },
+          {
+            level: "level 3",
+            target: 300,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 6,
+        levelList: [
+          {
+            level: "level 1",
+            target: 100,
+            point: 3,
+          },
+          {
+            level: "level 2",
+            target: 200,
+            point: 4,
+          },
+          {
+            level: "level 3",
+            target: 300,
+            point: 5,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 4,
+    campaignID: "VN-23Jan-003",
+    targetTypeID: 2,
+    pointReward: [
+      {
+        tagID: 4,
+        levelList: [
+          {
+            level: "level 1",
+            target: 200,
+            point: 1,
+          },
+          {
+            level: "level 2",
+            target: 300,
+            point: 2,
+          },
+          {
+            level: "level 3",
+            target: 400,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 6,
+        levelList: [
+          {
+            level: "level 1",
+            target: 200,
+            point: 3,
+          },
+          {
+            level: "level 2",
+            target: 300,
+            point: 4,
+          },
+          {
+            level: "level 3",
+            target: 400,
+            point: 5,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 5,
+    campaignID: "VN-23Jan-004",
+    targetTypeID: 1,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "level 1",
+            target: 400,
+            point: 1,
+          },
+        ],
+      },
+      {
+        tagID: 2,
+        levelList: [
+          {
+            level: "level 1",
+            target: 400,
+            point: 2,
+          },
+        ],
+      },
+      {
+        tagID: 7,
+        levelList: [
+          {
+            level: "level 1",
+            target: 400,
+            point: 3,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 6,
+    campaignID: "VN-23Jan-004",
+    targetTypeID: 3,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "level 1",
+            target: 500,
+            point: 1,
+          },
+        ],
+      },
+      {
+        tagID: 2,
+        levelList: [
+          {
+            level: "level 1",
+            target: 500,
+            point: 2,
+          },
+        ],
+      },
+      {
+        tagID: 7,
+        levelList: [
+          {
+            level: "level 1",
+            target: 500,
+            point: 3,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 7,
+    campaignID: "VN-23Jan-004",
+    targetTypeID: 4,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "level 1",
+            target: 300,
+            point: 1,
+          },
+        ],
+      },
+      {
+        tagID: 2,
+        levelList: [
+          {
+            level: "level 1",
+            target: 300,
+            point: 2,
+          },
+        ],
+      },
+      {
+        tagID: 7,
+        levelList: [
+          {
+            level: "level 1",
+            target: 300,
+            point: 3,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 8,
+    campaignID: "VN-23Jan-005",
+    targetTypeID: 1,
+    pointReward: [
+      {
+        tagID: 8,
+        levelList: [
+          {
+            level: "January",
+            target: 200,
+            point: 3,
+          },
+          {
+            level: "February",
+            target: 300,
+            point: 2,
+          },
+        ],
+      },
+      {
+        tagID: 6,
+        levelList: [
+          {
+            level: "January",
+            target: 300,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 100,
+            point: 1,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 9,
+    campaignID: "VN-23Jan-005",
+    targetTypeID: 3,
+    pointReward: [
+      {
+        tagID: 8,
+        levelList: [
+          {
+            level: "January",
+            target: 100,
+            point: 3,
+          },
+          {
+            level: "February",
+            target: 200,
+            point: 2,
+          },
+        ],
+      },
+      {
+        tagID: 6,
+        levelList: [
+          {
+            level: "January",
+            target: 300,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 100,
+            point: 1,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 10,
+    campaignID: "VN-23Jan-006",
+    targetTypeID: 1,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "January",
+            target: 300,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 600,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 3,
+        levelList: [
+          {
+            level: "January",
+            target: 200,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 300,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 8,
+        levelList: [
+          {
+            level: "January",
+            target: 100,
+            point: 4,
+          },
+          {
+            level: "February",
+            target: 200,
+            point: 5,
+          },
+        ],
+      },
+      {
+        tagID: 7,
+        levelList: [
+          {
+            level: "January",
+            target: 300,
+            point: 4,
+          },
+          {
+            level: "February",
+            target: 400,
+            point: 5,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 11,
+    campaignID: "VN-23Jan-006",
+    targetTypeID: 2,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "January",
+            target: 300,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 600,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 3,
+        levelList: [
+          {
+            level: "January",
+            target: 200,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 300,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 8,
+        levelList: [
+          {
+            level: "January",
+            target: 100,
+            point: 4,
+          },
+          {
+            level: "February",
+            target: 200,
+            point: 5,
+          },
+        ],
+      },
+      {
+        tagID: 7,
+        levelList: [
+          {
+            level: "January",
+            target: 300,
+            point: 4,
+          },
+          {
+            level: "February",
+            target: 400,
+            point: 5,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rewardPointID: 12,
+    campaignID: "VN-23Jan-006",
+    targetTypeID: 3,
+    pointReward: [
+      {
+        tagID: 1,
+        levelList: [
+          {
+            level: "January",
+            target: 400,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 500,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 3,
+        levelList: [
+          {
+            level: "January",
+            target: 100,
+            point: 2,
+          },
+          {
+            level: "February",
+            target: 200,
+            point: 3,
+          },
+        ],
+      },
+      {
+        tagID: 8,
+        levelList: [
+          {
+            level: "January",
+            target: 200,
+            point: 4,
+          },
+          {
+            level: "February",
+            target: 400,
+            point: 5,
+          },
+        ],
+      },
+      {
+        tagID: 7,
+        levelList: [
+          {
+            level: "January",
+            target: 500,
+            point: 4,
+          },
+          {
+            level: "February",
+            target: 800,
+            point: 5,
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const restrictDistrict = [
+  {
+    campaignID: "VN-23Jan-004",
+    districtID: 1,
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    districtID: 3,
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    districtID: 4,
+  },
+];
+
+const restrictionProvince = [
+  {
+    campaignID: "VN-23Jan-003",
+    provinceID: 1,
+  },
+  {
+    campaignID: "VN-23Jan-003",
+    provinceID: 2,
+  },
+];
+
+const restrictionShop = [
+  {
+    campaignID: "VN-23Jan-005",
+    retailerID: 1,
+    retailerType: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-005",
+    retailerID: 3,
+    retailerType: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    retailerID: 1,
+    retailerType: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    retailerID: 2,
+    retailerType: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    retailerID: 3,
+    retailerType: "RETAILER",
+  },
+];
+
+const restrictionTag = [
+  {
+    campaignID: "VN-23Jan-002",
+    tagID: 1,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-002",
+    tagID: 5,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-003",
+    tagID: 4,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-003",
+    tagID: 6,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-003",
+    tagID: 9,
+    typeTag: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-003",
+    tagID: 10,
+    typeTag: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    tagID: 10,
+    typeTag: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    tagID: 11,
+    typeTag: "RETAILER",
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    tagID: 1,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    tagID: 2,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-004",
+    tagID: 7,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-005",
+    tagID: 8,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-005",
+    tagID: 6,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    tagID: 1,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    tagID: 3,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    tagID: 8,
+    typeTag: "PRODUCT",
+  },
+  {
+    campaignID: "VN-23Jan-006",
+    tagID: 7,
+    typeTag: "PRODUCT",
+  },
+];
+
+const restrictionZone = [
+  {
+    campaignID: "VN-23Jan-002",
+    zoneID: 2,
+  },
+];
+
+// =========================== [END] Campaign and datasource ======================
+// =========================== [START] Master Data ================================
+
+const country = {
+  countryID: 1,
+  countryName: "Vietnam",
+};
+
+const zone = [
+  { zoneID: 1, zoneName: "Zone A", countryID: 1 },
+  { zoneID: 2, zoneName: "Zone B", countryID: 1 },
+];
+
+const province = [
+  {
+    provinceID: 1,
+    countryID: 1,
+    provinceName: "Province A",
+    provinceCode: "PROVA",
+    zoneID: 1,
+    isActive: true,
+  },
+  {
+    provinceID: 2,
+    countryID: 1,
+    provinceName: "Province B",
+    provinceCode: "PROVB",
+    zoneID: 1,
+    isActive: true,
+  },
+  {
+    provinceID: 3,
+    countryID: 1,
+    provinceName: "Province C",
+    provinceCode: "PROVC",
+    zoneID: 2,
+    isActive: true,
+  },
+];
+
+const district = [
+  {
+    districtID: 1,
+    districtName: "District A",
+    provinceID: 1,
+    countryID: 1,
+    isActive: true,
+  },
+  {
+    districtID: 2,
+    districtName: "District B",
+    provinceID: 2,
+    countryID: 1,
+    isActive: true,
+  },
+  {
+    districtID: 3,
+    districtName: "District C",
+    provinceID: 3,
+    countryID: 1,
+    isActive: true,
+  },
+  {
+    districtID: 4,
+    districtName: "District D",
+    provinceID: 3,
+    countryID: 1,
+    isActive: true,
+  },
+];
+
+const unit = [
+  {
+    id: 1,
+    unitName: "Ton",
+  },
+];
+
+const brand = [
+  {
+    productBrandID: 1,
+    brandName: "SG",
+    isActive: true,
+  },
+  {
+    productBrandID: 2,
+    brandName: "SCG",
+    isActive: true,
+  },
+];
+
+const segment = [
+  {
+    segmentID: 1,
+    segmentName: "High",
+  },
+  {
+    segmentID: 2,
+    segmentName: "Medium",
+  },
+  {
+    segmentID: 3,
+    segmentName: "Low",
+  },
+];
+
+const tags = [
+  {
+    tagID: 1,
+    countryID: 1,
+    tagColor: "RED",
+    tagName: "Item A",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 2,
+    countryID: 1,
+    tagColor: "RED",
+    tagName: "Item B",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 3,
+    countryID: 1,
+    tagColor: "RED",
+    tagName: "Item C",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 4,
+    countryID: 1,
+    tagColor: "RED",
+    tagName: "Item D",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 5,
+    countryID: 1,
+    tagColor: "GREEN",
+    tagName: "Item AB",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 6,
+    countryID: 1,
+    tagColor: "GREEN",
+    tagName: "Item BC",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 7,
+    countryID: 1,
+    tagColor: "GREEN",
+    tagName: "Item CD",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 8,
+    countryID: 1,
+    tagColor: "GREEN",
+    tagName: "Item AD",
+    typeTag: "PRODUCT",
+  },
+  {
+    tagID: 9,
+    countryID: 1,
+    tagColor: "YELLOW",
+    tagName: "Loyalty",
+    typeTag: "RETAILER",
+  },
+  {
+    tagID: 10,
+    countryID: 1,
+    tagColor: "ORANGE",
+    tagName: "Best Sell",
+    typeTag: "RETAILER",
+  },
+  {
+    tagID: 11,
+    countryID: 1,
+    tagColor: "BLUE",
+    tagName: "Luxury",
+    typeTag: "RETAILER",
+  },
+];
+
+const address = [
+  {
+    addressID: 1,
+    zaloID: "",
+    phoneNumber: "",
+    email: "",
+    sourceType: "DMS",
+    countryID: 1, //Viet Name
+    zoneID: 1, //Zone A
+    provinceID: 1, //Province A
+    districtID: 1, //District A
+    segmentID: 1, //High
+  },
+  {
+    addressID: 2,
+    zaloID: "",
+    phoneNumber: "",
+    email: "",
+    sourceType: "DMS",
+    countryID: 1, //Viet Name
+    zoneID: 2, //Zone B
+    provinceID: 3, //Province C
+    districtID: 3, //District C
+    segmentID: 2, //Medium
+  },
+  {
+    addressID: 3,
+    zaloID: "",
+    phoneNumber: "",
+    email: "",
+    sourceType: "DMS",
+    countryID: 1, //Viet Name
+    zoneID: 1, //Zone A
+    provinceID: 2, //Province B
+    districtID: 2, //District B
+    segmentID: 1, //High
+  },
+  {
+    addressID: 4,
+    zaloID: "",
+    phoneNumber: "",
+    email: "",
+    sourceType: "DMS",
+    countryID: 1, //Viet Name
+    zoneID: 2, //Zone B
+    provinceID: 3, //Province C
+    districtID: 4, //District D
+    segmentID: 3, //Low
+  },
+];
+
+const retailer = [
+  {
+    retailerID: 1,
+    retailerCode: "Shp01",
+    retailerName: "Shop1",
+    isActive: true,
+    addressID: 1,
+  },
+  {
+    retailerID: 2,
+    retailerCode: "Shp02",
+    retailerName: "Shop2",
+    isActive: true,
+    addressID: 2,
+  },
+  {
+    retailerID: 3,
+    retailerCode: "Shp03",
+    retailerName: "Shop3",
+    isActive: true,
+    addressID: 3,
+  },
+  {
+    retailerID: 4,
+    retailerCode: "Shp04",
+    retailerName: "Shop4",
+    isActive: true,
+    addressID: 4,
+  },
+];
+
+const retailerTag = [
+  {
+    retailerID: 1,
+    tagID: 9,
+  },
+  {
+    retailerID: 1,
+    tagID: 10,
+  },
+  {
+    retailerID: 3,
+    tagID: 9,
+  },
+  {
+    retailerID: 3,
+    tagID: 11,
+  },
+  {
+    retailerID: 4,
+    tagID: 10,
+  },
+];
+
+const product = [
+  {
+    productID: 1,
+    productName: "Item A",
+    productBrandID: 1, //SG
+    countryID: 1,
+    isActive: true,
+    productUnit_id: 1, //TON
+  },
+  {
+    productID: 2,
+    productName: "Item B",
+    productBrandID: 1, //SG
+    countryID: 1,
+    isActive: true,
+    productUnit_id: 1, //TON
+  },
+  {
+    productID: 3,
+    productName: "Item C",
+    productBrandID: 2, //SCG
+    countryID: 1,
+    productUnit_id: 1, //TON
+    isActive: true,
+  },
+  {
+    productID: 4,
+    productName: "Item D",
+    productBrandID: 2, //SCG
+    countryID: 1,
+    isActive: true,
+    productUnit_id: 1, //TON
+  },
+];
+
+const productTag = [
+  {
+    productID: 1,
+    tagID: 1,
+  },
+  {
+    productID: 1,
+    tagID: 5,
+  },
+  {
+    productID: 1,
+    tagID: 8,
+  },
+  {
+    productID: 2,
+    tagID: 2,
+  },
+  {
+    productID: 2,
+    tagID: 5,
+  },
+  {
+    productID: 2,
+    tagID: 6,
+  },
+  {
+    productID: 3,
+    tagID: 3,
+  },
+  {
+    productID: 3,
+    tagID: 6,
+  },
+  {
+    productID: 3,
+    tagID: 7,
+  },
+  {
+    productID: 4,
+    tagID: 4,
+  },
+  {
+    productID: 4,
+    tagID: 7,
+  },
+  {
+    productID: 4,
+    tagID: 8,
+  },
+];
+
+const restrictionSegment: { segmentID: number; campaignID: string }[] = [];
+
+// =========================== [END] Master Data ================================
+
+enum ETargetTypeValue {
+  COUNTRY = "COUNTRY",
+  ZONE = "ZONE",
+  PROVINCE = "PROVINCE",
+  DISTRICT = "DISTRICT",
+  SEGMENT = "SEGMENT",
+  RETAILER = "RETAILER",
+}
+
+const getTargetTypeValue = (
+  campaignID: string,
+  targetType: ETargetTypeValue
+) => {
+  console.log(targetType, "targetType");
+  switch (targetType) {
+    case ETargetTypeValue.COUNTRY: {
+      return [1];
+      break;
+    }
+    case ETargetTypeValue.ZONE: {
+      const filterResZone = restrictionZone.filter(
+        (resZone) => resZone.campaignID === campaignID
+      );
+      const zoneIds = filterResZone.map((fltZone) => fltZone.zoneID);
+      return zoneIds;
+    }
+    case ETargetTypeValue.PROVINCE: {
+      const filterResProvince = restrictionProvince.filter(
+        (resProv) => resProv.campaignID === campaignID
+      );
+      const provinceIds = filterResProvince.map(
+        (fltProv) => fltProv.provinceID
+      );
+      return provinceIds;
+    }
+    case ETargetTypeValue.DISTRICT: {
+      const filterResDistrict = restrictDistrict.filter(
+        (resDistrict) => resDistrict.campaignID === campaignID
+      );
+      const districtIds = filterResDistrict.map(
+        (fltDistrict) => fltDistrict.districtID
+      );
+      return districtIds;
+    }
+    case ETargetTypeValue.SEGMENT: {
+      const filterResSegment = restrictionSegment.filter(
+        (resSeg) => resSeg.campaignID === campaignID
+      );
+      const segmentIds = filterResSegment.map((fltSeg) => fltSeg.segmentID);
+      return segmentIds;
+    }
+    case ETargetTypeValue.RETAILER: {
+      const filterResShop = restrictionShop.filter(
+        (resShop) =>
+          resShop.campaignID === campaignID &&
+          resShop.retailerType === "RETAILER"
+      );
+      const shopIds = filterResShop.map((fltShop) => fltShop.retailerID);
+      return shopIds;
+    }
+  }
+};
+
+const findRetailerWithTargetType = (
+  targetType: ETargetTypeValue,
+  targetTypeValue: number[]
+) => {
+  switch (targetType) {
+    case ETargetTypeValue.COUNTRY: {
+      const foundAddress = address
+        .filter((addr) => targetTypeValue.includes(addr.countryID))
+        .map((addr) => addr.addressID);
+      const findRetailer = retailer.filter((rtl) =>
+        foundAddress.includes(rtl.addressID)
+      );
+      return findRetailer;
+      break;
+    }
+    case ETargetTypeValue.ZONE: {
+      const foundAddress = address
+        .filter((addr) => targetTypeValue.includes(addr.zoneID))
+        .map((addr) => addr.addressID);
+      const findRetailer = retailer.filter((rtl) =>
+        foundAddress.includes(rtl.addressID)
+      );
+      return findRetailer;
+      break;
+    }
+    case ETargetTypeValue.PROVINCE: {
+      const foundAddress = address
+        .filter((addr) => targetTypeValue.includes(addr.provinceID))
+        .map((addr) => addr.addressID);
+      const findRetailer = retailer.filter((rtl) =>
+        foundAddress.includes(rtl.addressID)
+      );
+      return findRetailer;
+      break;
+    }
+    case ETargetTypeValue.DISTRICT: {
+      const foundAddress = address
+        .filter((addr) => targetTypeValue.includes(addr.districtID))
+        .map((addr) => addr.addressID);
+      const findRetailer = retailer.filter((rtl) =>
+        foundAddress.includes(rtl.addressID)
+      );
+      return findRetailer;
+      break;
+    }
+    case ETargetTypeValue.SEGMENT: {
+      const foundAddress = address
+        .filter((addr) => targetTypeValue.includes(addr.segmentID))
+        .map((addr) => addr.addressID);
+      const findRetailer = retailer.filter((rtl) =>
+        foundAddress.includes(rtl.addressID)
+      );
+      return findRetailer;
+      break;
+    }
+    case ETargetTypeValue.RETAILER: {
+      const findRetailer = retailer.filter((rtl) =>
+        targetTypeValue.includes(rtl.addressID)
+      );
+      return findRetailer;
+      break;
+    }
+  }
+};
+
+app.post("/cal_api", (req: Request, res: Response) => {
+  try {
+    const campaignID = req.body.campaignID;
+
+    const selectedCampaign = campaign.find(
+      (cp) => cp.campaignID === campaignID
+    );
+
+    console.log(selectedCampaign, "selectedCampaign");
+
+    const targetTypeValue = getTargetTypeValue(
+      campaignID,
+      selectedCampaign?.campaignTargetType as ETargetTypeValue
+    );
+
+    console.log(targetTypeValue, "targetTypeValue");
+
+    const shops = findRetailerWithTargetType(
+      selectedCampaign?.campaignTargetType as ETargetTypeValue,
+      targetTypeValue
+    );
+
+    res.send(shops);
+    // for (let i = 0; i < campaign.length; i++) {
+    //   if (campaign[i]["campaignID"] == campaignID) {
+    //     const retailer_zoneA = retailer.filter((retailer) => {
+    //       return retailer["addressID"] == 1 || retailer["addressID"] == 3;
+    //     });
+    //     const retailer_zoneB = retailer.filter((retailer) => {
+    //       return retailer["addressID"] == 2 || retailer["addressID"] == 4;
+    //     });
+    //     const customer_zoneA = dataSource.filter((customer) => {
+    //       return customer["zone"] == "Zone A";
+    //     });
+    //     const customer_zoneB = dataSource.filter((customer) => {
+    //       return customer["zone"] == "Zone B";
+    //     });
+    //   }
+    // }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+app.listen(port, () => {
+  console.log("Server in running.");
+});
